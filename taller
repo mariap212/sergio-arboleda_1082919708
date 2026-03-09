@@ -1,0 +1,44 @@
+estudiantes = []
+
+for i in range(5):
+    print(f"\nEstudiante {i+1}:")
+    
+    nombre = input("Nombre: ")
+    
+    while True:
+        try:
+            edad = int(input("Edad: "))
+            if 5 <= edad <= 100:
+                break
+            else:
+                print("Edad inválida. Debe estar entre 5 y 100.")
+        except ValueError:
+            print("Por favor, ingresa un número entero para la edad.")
+    
+    while True:
+        try:
+            calificacion = float(input("Calificación: "))
+            if 0 <= calificacion <= 5:
+                break
+            else:
+                print("Calificación inválida. Debe estar entre 0 y 5.")
+        except ValueError:
+            print("Por favor, ingresa un número decimal para la calificación.")
+    
+    estudiantes.append({
+        'nombre': nombre,
+        'edad': edad,
+        'calificacion': calificacion
+    })
+
+# Encontrar el estudiante con la calificación más alta
+max_calif = max(estudiantes, key=lambda x: x['calificacion'])
+min_calif = min(estudiantes, key=lambda x: x['calificacion'])
+
+# Calcular promedio
+promedio = sum(e['calificacion'] for e in estudiantes) / len(estudiantes)
+
+print("\nResultados:")
+print(f"Estudiante con la calificación más alta: {max_calif['nombre']} ({max_calif['calificacion']})")
+print(f"Estudiante con la calificación más baja: {min_calif['nombre']} ({min_calif['calificacion']})")
+print(f"Calificación promedio: {promedio:.2f}")
