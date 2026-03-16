@@ -1,0 +1,78 @@
+import math
+
+def calcular_area_circulo(radio):
+    """
+    Calcula el área de un círculo usando math.pi.
+    
+    Args:
+        radio (float): Radio del círculo.
+    
+    Returns:
+        float: Área del círculo.
+    """
+    return math.pi * (radio ** 2)
+
+def calcular_hipotenusa(cateto1, cateto2):
+    """
+    Calcula la hipotenusa de un triángulo rectángulo usando math.sqrt.
+    
+    Args:
+        cateto1 (float): Longitud del primer cateto.
+        cateto2 (float): Longitud del segundo cateto.
+    
+    Returns:
+        float: Longitud de la hipotenusa.
+    """
+    return math.sqrt(cateto1 ** 2 + cateto2 ** 2)
+
+def calcular_potencia(base, exponente):
+    """
+    Calcula la potencia usando math.pow.
+    
+    Args:
+        base (float): Base de la potencia.
+        exponente (float): Exponente.
+    
+    Returns:
+        float: Resultado de base elevado al exponente.
+    """
+    return math.pow(base, exponente)
+
+def main():
+    """
+    Función principal con menú para seleccionar cálculos.
+    """
+    while True:
+        print("\nMenú de opciones:")
+        print("1. Calcular área de círculo")
+        print("2. Calcular hipotenusa")
+        print("3. Calcular potencia")
+        print("4. Salir")
+        
+        try:
+            opcion = int(input("Elige una opción (1-4): "))
+            
+            if opcion == 1:
+                radio = float(input("Ingresa el radio del círculo: "))
+                area = calcular_area_circulo(radio)
+                print(f"El área del círculo es {area:.2f}")
+            elif opcion == 2:
+                cateto1 = float(input("Ingresa el primer cateto: "))
+                cateto2 = float(input("Ingresa el segundo cateto: "))
+                hipotenusa = calcular_hipotenusa(cateto1, cateto2)
+                print(f"La hipotenusa es {hipotenusa:.2f}")
+            elif opcion == 3:
+                base = float(input("Ingresa la base: "))
+                exponente = float(input("Ingresa el exponente: "))
+                potencia = calcular_potencia(base, exponente)
+                print(f"El resultado de {base} elevado a {exponente} es {potencia:.2f}")
+            elif opcion == 4:
+                print("Saliendo del programa.")
+                break
+            else:
+                print("Opción no válida. Intenta de nuevo.")
+        except ValueError:
+            print("Por favor, ingresa un número válido.")
+
+if __name__ == "__main__":
+    main()
