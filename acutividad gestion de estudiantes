@@ -1,0 +1,169 @@
+def validar_cedula(cedula):
+    """
+    Valida que la cédula sea un número de 8-10 dígitos.
+    
+    Args:
+        cedula (str): Cédula a validar.
+    
+    Returns:
+        bool: True si es válida, False si no.
+    """
+    return cedula.isdigit() and 8 <= len(cedula) <= 10
+
+def validar_email(email):
+    """
+    Valida que el email tenga formato básico usuario@dominio.com.
+    
+    Args:
+        email (str): Email a validar.
+    
+    Returns:
+        bool: True si es válido, False si no.
+    """
+    if '@' not in email or email.count('@') != 1:
+        return False
+    local, domain = email.split('@')
+    return '.' in domain and len(local) > 0 and len(domain) > 0
+
+def validar_calificaciones(calificaciones):
+    """
+    Valida que todas las calificaciones estén entre 0 y 5.
+    
+    Args:
+        calificaciones (list): Lista de calificaciones (floats).
+    
+    Returns:
+        bool: True si todas son válidas, False si no.
+    """
+    return all(0 <= cal <= 5 for cal in calificaciones)
+
+def calcular_promedio(calificaciones):
+    """
+    Calcula el promedio de las calificaciones.
+    
+    Args:
+        calificaciones (list): Lista de calificaciones.
+    
+    Returns:
+        float: Promedio redondeado a 2 decimales.
+    """
+    if not calificaciones:
+        return 0.0
+    return round(sum(calificaciones) / len(calificaciones), 2)
+
+def clasificar_desempeño(promedio):
+    """
+    Clasifica el desempeño basado en el promedio.
+    
+    Args:
+        promedio (float): Promedio del estudiante.
+    
+    Returns:
+        str: Clasificación del desempeño.
+    """
+    if promedio >= 4.5:
+        return "Excelente"
+    elif promedio >= 4.0:
+        return "Muy bueno"
+    elif promedio >= 3.5:
+        return "Bueno"
+    elif promedio >= 3.0:
+        return "Satisfactorio"
+    else:
+        return "Necesita mejorar"
+
+def crear_estudiante(cedula, nombre, email, calificaciones):
+    """
+    Crea un estudiante si todos los datos son válidos.
+    
+    Args:
+        cedula (str): Cédula del estudiante.
+        nombre (str): Nombre del estudiante.
+        email (str): Email del estudiante.
+        calificaciones (list): Lista de calificaciones.
+    
+    Returns:
+        dict or None: Diccionario del estudiante o None si inválido.
+    """
+    if not validar_cedula(cedula):
+        print("Cédula inválida.")
+        return None
+    if not validar_email(email):
+        print("Email inválido.")
+        return None
+    if not validar_calificaciones(calificaciones):
+        print("Calificaciones inválidas (deben estar entre 0 y 5).")
+        return None
+    promedio = calcular_promedio(calificaciones)
+    return {
+        "cedula": cedula,
+        "nombre": nombre,
+        "email": email,
+        "promedio": promedio
+    }
+
+def listar_estudiantes(lista_estudiantes):
+    """
+    Imprime una tabla con la lista de estudiantes.
+    
+    Args:
+        lista_estudiantes (list): Lista de diccionarios de estudiantes.
+    """
+    if not lista_estudiantes:
+        print("No hay estudiantes registrados.")
+        return
+    print(f"{'Cédula':<12} | {'Nombre':<20} | {'Promedio':<8} | {'Desempeño':<15}")
+    print("-" * 60)
+    for estudiante in lista_estudiantes:
+        desempeño = clasificar_desempeño(estudiante["promedio"])
+        print(f"{estudiante['cedula']:<12} | {estudiante['nombre']:<20} | {estudiante['promedio']:<8} | {desempeño:<15}")
+
+def main():
+    """
+    Función principal con menú para gestionar estudiantes.
+    """
+    estudiantes = []
+    while True:
+        print("\nMenú de opciones:")
+        print("1. Agregar estudiante")
+        print("2. Ver lista de estudiantes")
+        print("3. Buscar estudiante por cédula")
+        print("4. Salir")
+        
+        try:
+            opcion = int(input("Elige una opción (1-4): "))
+            
+            if opcion == 1:
+                cedula = input("Ingresa la cédula: ")
+                nombre = input("Ingresa el nombre: ")
+                email = input("Ingresa el email: ")
+                calif_str = input("Ingresa las calificaciones separadas por coma: ")
+                try:
+                    calificaciones = [float(x.strip()) for x in calif_str.split(',')]
+                    estudiante = crear_estudiante(cedula, nombre, email, calificaciones)
+                    if estudiante:
+                        estudiantes.append(estudiante)
+                        desempeño = clasificar_desempeño(estudiante["promedio"])
+                        print(f"Estudiante agregado exitosamente. Promedio: {estudiante['promedio']} | Desempeño: {desempeño}")
+                except ValueError:
+                    print("Calificaciones deben ser números separados por coma.")
+            elif opcion == 2:
+                listar_estudiantes(estudiantes)
+            elif opcion == 3:
+                cedula_buscar = input("Ingresa la cédula a buscar: ")
+                encontrado = next((e for e in estudiantes if e["cedula"] == cedula_buscar), None)
+                if encontrado:
+                    desempeño = clasificar_desempeño(encontrado["promedio"])
+                    print(f"Estudiante encontrado: {encontrado['nombre']}, Promedio: {encontrado['promedio']}, Desempeño: {desempeño}")
+                else:
+                    print("Estudiante no encontrado.")
+            elif opcion == 4:
+                print("Saliendo del programa.")
+                break
+            else:
+                print("Opción no válida.")
+        except ValueError:
+            print("Por favor, ingresa un número válido.")
+
+if __name__ == "__main__":
+    main()
