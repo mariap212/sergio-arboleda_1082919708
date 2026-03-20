@@ -1,0 +1,14 @@
+estudiantes = ["marcos", "sergio", "adriana", "keiner", "camilo", "juan", "laura"]
+
+estudiantes.append(maria)
+print(estudiantes) #[marcos, sergio, adriana, keiner, camilo, juan, laura, maria]
+estudiantes.append("xavi")
+print(estudiantes) #[marcos, sergio, adriana, keiner, camilo, juan, laura, maria, xavi]
+
+print(len(estudiantes)) #12
+
+if "marcos" in estudiantes:
+    print("marcos esta en la lista de estudiantes")
+
+estudiantes.remove("sergio")
+print(estudiantes) #[marcos, adriana, keiner, camilo, juan, laura, maria, xavi]
